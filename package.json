@@ -1,5 +1,5 @@
 {
-  "name": "vueexample",
+  "name": "musicapp",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,10 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "vue": "^3.4.29"
+    "axios": "^1.7.7",
+    "pinia": "^2.2.4",
+    "vue": "^3.4.29",
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@types/node": "^22.5.5",

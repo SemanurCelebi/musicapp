@@ -1,47 +1,42 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="flex items-center justify-center min-h-screen bg-blue-100">
-      <HelloWorld msg="You did itttt!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+	<div id="app" class="text-center">
+		<div v-if="key">
+			spoti
+			<router-view></router-view>
+		</div>
+	</div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useKeyStore } from './stores/keyStore';
+const keyStore = useKeyStore();
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+const key = ref<string | null>(null);
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+const fetchKey = async () => {
+	try {
+		await keyStore.getKey();
+		key.value = keyStore.token;
+		console.log("key data", key.value);
+	} catch (error) {
+		console.error('Error fetching setup data:', error);
+	}
+};
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+onMounted(() => {
+	fetchKey();
+});
+
+</script>
+
+
+<style>
+#app {
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	text-align: center;
+	color: #2c3e50;
+	margin-top: 60px;
 }
 </style>
