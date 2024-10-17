@@ -1,9 +1,9 @@
 <template>
 	<div id="app" class="text-center">
 		<div v-if="key">
-			spoti
 			<router-view></router-view>
 		</div>
+		<Loader v-else/>
 	</div>
 </template>
 
@@ -37,6 +37,5 @@ onMounted(() => {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	text-align: center;
 	color: #2c3e50;
-	margin-top: 60px;
 }
 </style>
