@@ -1,0 +1,142 @@
+<template>
+	<div class="artist-search-container">
+		<div class="artist-search">
+			<input
+					v-model="searchQuery"
+					type="text"
+					placeholder="What do you want to search?"
+					class="search-input"
+			/>
+			<button @click="searchArtists" class="search-button">
+				<font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+			</button>
+		</div>
+		
+		<div v-if="artistList.length > 0" class="results-container">
+			<h3 class="header">Artists</h3>
+			<ul class="artist-list">
+				<li v-for="artist in artistList.slice(0, 3)" :key="artist.id" class="artist-item">
+					<img :src="artist.images[0]?.url" alt="Artist Photo" class="artist-image" @click="getArtistDetail(artist.id)" />
+					<div class="artist-info">
+						<p class="artist-name">{{ artist.name }}</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+		<div v-if="trackList.length > 0" class="results-container">
+			<h3 class="header">Songs</h3>
+			<ul class="track-list">
+				<li v-for="track in trackList.slice(0, 3)" :key="track.id" class="track-item">
+					<audio :src="track.preview_url" controls class="audio-player">
+						Your browser does not support the audio element.
+					</audio>
+					<div class="track-info">
+						<p class="track-name">{{ track.name }}</p>
+						<p class="track-artist">{{ track.artists[0]?.name }}</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+		<div v-if="albumList.length > 0" class="results-container">
+			<h3 class="header">Albums</h3>
+			<ul class="album-list">
+				<li v-for="album in albumList.slice(0, 3)" :key="album.id" class="album-item">
+					<img :src="album.images[0]?.url" alt="Album Cover" class="album-image" />
+					<div class="album-info">
+						<p class="album-name">{{ album.name }}</p>
+						<p class="album-artist">{{ album.release_date }}-{{ album.artists[0]?.name }}</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+		<div v-if="playlistList.length > 0" class="results-container">
+			<h3 class="header">Playlists</h3>
+			<ul class="playlist-list">
+				<li v-for="playlist in playlistList.slice(0, 3)" :key="playlist.id" class="playlist-item">
+					<img :src="playlist.images[0]?.url" alt="Playlist Cover" class="playlist-image" />
+					<div class="playlist-info">
+						<p class="playlist-name">{{ playlist.name }}</p>
+						<p class="playlist-owner">By {{ playlist.owner.display_name }}</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>
+
+<script setup lang="ts">
+import '@/assets/styles/tailwind-components.css';
+import { ref , watch } from 'vue';
+import axios from 'axios';
+
+import { useKeyStore } from '@/stores/keyStore';
+import { useArtistStore } from "@/stores/artistStore";
+
+
+const searchQuery = ref<string>('');
+const artistDetail = ref<string | null>(null);
+
+const artistList = ref<Array<any>>([]);
+const trackList = ref<Array<any>>([]);
+const albumList = ref<Array<any>>([]);
+const playlistList = ref<Array<any>>([]);
+
+const keyStore = useKeyStore();
+const artistStore =useArtistStore();
+
+watch(searchQuery, (newQuery) => {
+	if (newQuery.length > 2) {
+		searchArtists();
+	} else {
+		artistList.value = [];
+		trackList.value = [];
+		albumList.value = [];
+		playlistList.value = [];
+	}
+});
+
+const searchArtists = async () => {
+	if (!searchQuery.value || !keyStore.token) return;
+	
+	try {
+		const response = await axios.get(
+				`https://api.spotify.com/v1/search?q=${searchQuery.value}&type=artist,track,album,playlist`,
+				{
+					headers: {
+						Authorization: `Bearer ${keyStore.token}`,
+					},
+				}
+		);
+		artistList.value = response.data.artists.items;
+		albumList.value = response.data.albums.items;
+		playlistList.value = response.data.playlists.items;
+		trackList.value = response.data.tracks.items;
+		
+		
+		console.log("artist data", artistList.value);
+		console.log("track data", trackList.value);
+		console.log("album data", albumList.value);
+		console.log("playlist data", playlistList.value);
+	} catch (error) {
+		console.error('Error while searching for artist:', error);
+	}
+};
+
+const getArtistDetail = async (artistId: string) => {
+	try {
+		await artistStore.getArtist(artistId);
+		artistDetail.value = artistStore.artist;
+		console.log("artist detail data", artistDetail.value);
+	} catch (error) {
+		console.error('Error fetching setup data:', error);
+	}
+}
+
+
+</script>
+
+<style scoped>
+</style>

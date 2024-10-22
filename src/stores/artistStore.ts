@@ -10,10 +10,10 @@ export const useArtistStore = defineStore('artistStore', {
         artist: null,
     }),
     actions: {
-        async getArtist() {
+        async getArtist(artistId : string) {
             const keyStore = useKeyStore();
             try {
-                const response = await axios.get('https://api.spotify.com/v1/artists/1vCWHaC5f2uS3yhpwWbIA6', {
+                const response = await axios.get(`https://api.spotify.com/v1/artists/${artistId}`, {
                     headers: {
                         Authorization: `Bearer ${keyStore.token}`,
                     }
