@@ -2,11 +2,29 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import { useKeyStore } from './keyStore'
 
-interface artistState {
-    artist: string | null;
+export interface Artist {
+    external_urls: {
+        spotify: string;
+    };
+    followers: {
+        href: string | null;
+        total: number;
+    };
+    genres: string[];
+    href: string;
+    id: string;
+    images: Array<{ url: string; height: number; width: number }>;
+    name: string;
+    popularity: number;
+    type: string;
+    uri: string;
 }
-export const useArtistStore = defineStore('artistStore', {
-    state: (): artistState => ({
+
+interface detailState {
+    artist: Artist | null;
+}
+export const useDetailStore = defineStore('detailStore', {
+    state: (): detailState => ({
         artist: null,
     }),
     actions: {
@@ -20,7 +38,7 @@ export const useArtistStore = defineStore('artistStore', {
                 });
                 this.artist = response.data;
             } catch (error) {
-                console.error('Error fetching categories:', error);
+                console.error('Error fetching Artist:', error);
             }
         },
     },

@@ -1,13 +1,13 @@
 <template>
-	<div class="artist-search-container">
-		<div class="artist-search">
+	<div class="search-container">
+		<div class="search">
 			<input
 					v-model="searchQuery"
 					type="text"
 					placeholder="What do you want to search?"
 					class="search-input"
 			/>
-			<button @click="searchArtists" class="search-button">
+			<button @click="searchItem" class="search-button">
 				<font-awesome-icon :icon="['fas', 'magnifying-glass']" />
 			</button>
 		</div>
@@ -16,7 +16,9 @@
 			<h3 class="header">Artists</h3>
 			<ul class="artist-list">
 				<li v-for="artist in artistList.slice(0, 3)" :key="artist.id" class="artist-item">
-					<img :src="artist.images[0]?.url" alt="Artist Photo" class="artist-image" @click="getArtistDetail(artist.id)" />
+					<router-link  :to="{ name: 'ArtistDetail', params: { artistId: artist.id }}">
+						<img :src="artist.images[0]?.url" alt="Artist Photo" class="artist-image"/>
+					</router-link>
 					<div class="artist-info">
 						<p class="artist-name">{{ artist.name }}</p>
 					</div>
@@ -73,11 +75,9 @@ import { ref , watch } from 'vue';
 import axios from 'axios';
 
 import { useKeyStore } from '@/stores/keyStore';
-import { useArtistStore } from "@/stores/artistStore";
 
 
 const searchQuery = ref<string>('');
-const artistDetail = ref<string | null>(null);
 
 const artistList = ref<Array<any>>([]);
 const trackList = ref<Array<any>>([]);
@@ -85,11 +85,10 @@ const albumList = ref<Array<any>>([]);
 const playlistList = ref<Array<any>>([]);
 
 const keyStore = useKeyStore();
-const artistStore =useArtistStore();
 
 watch(searchQuery, (newQuery) => {
 	if (newQuery.length > 2) {
-		searchArtists();
+		searchItem();
 	} else {
 		artistList.value = [];
 		trackList.value = [];
@@ -98,7 +97,7 @@ watch(searchQuery, (newQuery) => {
 	}
 });
 
-const searchArtists = async () => {
+const searchItem = async () => {
 	if (!searchQuery.value || !keyStore.token) return;
 	
 	try {
@@ -115,7 +114,6 @@ const searchArtists = async () => {
 		playlistList.value = response.data.playlists.items;
 		trackList.value = response.data.tracks.items;
 		
-		
 		console.log("artist data", artistList.value);
 		console.log("track data", trackList.value);
 		console.log("album data", albumList.value);
@@ -124,18 +122,6 @@ const searchArtists = async () => {
 		console.error('Error while searching for artist:', error);
 	}
 };
-
-const getArtistDetail = async (artistId: string) => {
-	try {
-		await artistStore.getArtist(artistId);
-		artistDetail.value = artistStore.artist;
-		console.log("artist detail data", artistDetail.value);
-	} catch (error) {
-		console.error('Error fetching setup data:', error);
-	}
-}
-
-
 </script>
 
 <style scoped>

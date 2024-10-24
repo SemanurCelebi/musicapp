@@ -18,7 +18,6 @@ const fetchKey = async () => {
 	try {
 		await keyStore.getKey();
 		key.value = keyStore.token;
-		console.log("key data", key.value);
 	} catch (error) {
 		console.error('Error fetching setup data:', error);
 	}
@@ -37,5 +36,6 @@ onMounted(() => {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	text-align: center;
 	color: #2c3e50;
+	background-color: rgb(31 41 55);
 }
 </style>

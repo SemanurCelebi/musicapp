@@ -29,7 +29,6 @@ export const useKeyStore = defineStore('keyStore', {
                     },
                 });
                 this.token = tokenResponse.data.access_token;
-                console.log("this.token", this.token);
             } catch (error) {
                 console.error('Error fetching key:', error);
                 throw error;
