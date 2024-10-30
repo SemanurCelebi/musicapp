@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '@/views/Home.vue';
 import ArtistDetail  from "@/components/ArtistDetail.vue";
+import TracksDetail from "@/components/TrackDetail.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -12,6 +13,12 @@ const routes: Array<RouteRecordRaw> = [
         path: '/artistDetail/:artistId',
         name: 'ArtistDetail',
         component: ArtistDetail,
+        props: true
+    },
+    {
+        path: '/trackDetail/:trackId',
+        name: 'TracksDetail',
+        component: TracksDetail,
         props: true
     },
 ];

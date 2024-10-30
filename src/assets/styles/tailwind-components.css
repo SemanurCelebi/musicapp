@@ -53,11 +53,11 @@
 }
 
 .track-name{
-    @apply text-white text-base font-extralight;
+    @apply text-white text-base font-extralight hover:underline
 }
 
 .track-artist {
-    @apply text-sm text-slate-400 hover:underline
+    @apply text-sm text-slate-400
 }
 
 .album-list {

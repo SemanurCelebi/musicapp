@@ -34,7 +34,9 @@
 						Your browser does not support the audio element.
 					</audio>
 					<div class="track-info">
-						<p class="track-name">{{ track.name }}</p>
+						<router-link  :to="{ name: 'TracksDetail', params: { trackId: track.id }}">
+							<p class="track-name">{{ track.name }}</p>
+						</router-link>
 						<p class="track-artist">{{ track.artists[0]?.name }}</p>
 					</div>
 				</li>
