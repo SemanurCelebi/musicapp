@@ -59,7 +59,7 @@
 		<div v-if="playlistList.length > 0" class="results-container">
 			<h3 class="header">Playlists</h3>
 			<ul class="playlist-list">
-				<li v-for="playlist in playlistList.slice(0, 3)" :key="playlist.id" class="playlist-item">
+				<li v-for="playlist in playlistList.filter(item => item !== null).slice(0, 3)" :key="playlist.id" class="playlist-item">
 					<img :src="playlist.images[0]?.url" alt="Playlist Cover" class="playlist-image" />
 					<div class="playlist-info">
 						<p class="playlist-name">{{ playlist.name }}</p>
@@ -72,19 +72,22 @@
 </template>
 
 <script setup lang="ts">
-import '@/assets/styles/tailwind-components.css';
 import { ref , watch } from 'vue';
-import axios from 'axios';
+import { searchSpotify } from "@/services/search";
+import { Album } from "@/types/album";
+import { Artist } from "@/types/artist";
+import { Track } from "@/types/track";
+import { Playlist } from "@/types/playlist";
 
 import { useKeyStore } from '@/stores/keyStore';
 
 
 const searchQuery = ref<string>('');
 
-const artistList = ref<Array<any>>([]);
-const trackList = ref<Array<any>>([]);
-const albumList = ref<Array<any>>([]);
-const playlistList = ref<Array<any>>([]);
+const artistList = ref<Artist[]>([]);
+const albumList = ref<Album[]>([]);
+const playlistList = ref<Playlist[]>([]);
+const trackList = ref<Track[]>([]);
 
 const keyStore = useKeyStore();
 
@@ -103,25 +106,20 @@ const searchItem = async () => {
 	if (!searchQuery.value || !keyStore.token) return;
 	
 	try {
-		const response = await axios.get(
-				`https://api.spotify.com/v1/search?q=${searchQuery.value}&type=artist,track,album,playlist`,
-				{
-					headers: {
-						Authorization: `Bearer ${keyStore.token}`,
-					},
-				}
-		);
-		artistList.value = response.data.artists.items;
-		albumList.value = response.data.albums.items;
-		playlistList.value = response.data.playlists.items;
-		trackList.value = response.data.tracks.items;
+		
+		const response = await searchSpotify(searchQuery.value, keyStore.token);
+		
+		artistList.value = response.artists.items;
+		albumList.value = response.albums.items;
+		playlistList.value = response.playlists.items;
+		trackList.value = response.tracks.items;
 		
 		console.log("artist data", artistList.value);
 		console.log("track data", trackList.value);
 		console.log("album data", albumList.value);
 		console.log("playlist data", playlistList.value);
 	} catch (error) {
-		console.error('Error while searching for artist:', error);
+		console.error('Error while searching', error);
 	}
 };
 </script>

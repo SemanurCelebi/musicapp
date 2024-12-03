@@ -16,9 +16,9 @@ export const useKeyStore = defineStore('keyStore', {
     actions: {
         async getKey(): Promise<void> {
             try {
-                const response = await axios.get('https://run.mocky.io/v3/28375f13-c42d-46f9-ac25-ef8fc8f224c7');
-                this.clientID = response.data.clientID;
-                this.clientSecret = response.data.clientSecret;
+                const response = await axios.get('https://66a3b48344aa6370458236cc.mockapi.io/api/user');
+                this.clientID = response.data[0].clientID;
+                this.clientSecret = response.data[0].clientSecret;
 
                 const tokenResponse = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
                     grant_type: 'client_credentials',

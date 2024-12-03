@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import '@/assets/styles/tailwind-components.css';
 import { ref, onMounted } from 'vue';
 import { useKeyStore } from './stores/keyStore';
 const keyStore = useKeyStore();
