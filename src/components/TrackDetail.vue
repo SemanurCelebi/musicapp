@@ -37,12 +37,13 @@
 </template>
 
 <script setup lang="ts">
-import {useDetailStore, Track} from "@/stores/detailStore";
-import {onMounted, ref} from "vue";
+import { useDetailStore } from "@/stores/detailStore";
+import { onMounted, ref } from "vue";
+import { Track } from "@/types/track";
 
 const detailStore = useDetailStore();
 
-const trackDetail = ref<Track | null>(null);
+const trackDetail = ref<Track>();
 
 const props = defineProps({
 	trackId: {
@@ -50,15 +51,15 @@ const props = defineProps({
 		required: true
 	}
 })
-const getTrackDetail = async (trackId: string) => {
+const getTrackDetail = async () => {
 	try {
-		await detailStore.getTrack(trackId);
+		await detailStore.getTrackData(props.trackId);
 		trackDetail.value = detailStore.track;
 	} catch (error) {
 		console.error('Error fetching setup data:', error);
 	}
 }
 onMounted(() => {
-	getTrackDetail(props.trackId);
+	getTrackDetail();
 });
 </script>

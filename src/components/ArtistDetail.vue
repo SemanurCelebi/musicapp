@@ -22,11 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { useDetailStore, Artist } from "@/stores/detailStore";
-import {onMounted, ref} from "vue";
+import { ref, onMounted } from 'vue';
+import { useDetailStore } from "@/stores/detailStore";
+import { Artist } from "@/types/artist";
+
 const detailStore = useDetailStore();
 
-const artistDetail = ref<Artist | null>(null);
+let artistDetail = ref<Artist>();
 
 const props = defineProps({
 	artistId: {
@@ -34,15 +36,16 @@ const props = defineProps({
 		required: true
 	}
 })
-const getArtistDetail = async (artistId: string) => {
+
+const getArtistDetail = async () => {
 	try {
-		await detailStore.getArtist(artistId);
+		await detailStore.getArtistData(props.artistId);
 		artistDetail.value = detailStore.artist;
 	} catch (error) {
 		console.error('Error fetching setup data:', error);
 	}
 }
 onMounted(() => {
-	getArtistDetail(props.artistId);
+	getArtistDetail();
 });
 </script>

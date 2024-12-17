@@ -108,11 +108,12 @@ const searchItem = async () => {
 	try {
 		
 		const response = await searchSpotify(searchQuery.value, keyStore.token);
+		const { artists, albums, playlists, tracks }= response;
 		
-		artistList.value = response.artists.items;
-		albumList.value = response.albums.items;
-		playlistList.value = response.playlists.items;
-		trackList.value = response.tracks.items;
+		artistList.value = artists.items;
+		albumList.value = albums.items;
+		playlistList.value = playlists.items;
+		trackList.value = tracks.items;
 		
 		console.log("artist data", artistList.value);
 		console.log("track data", trackList.value);
@@ -123,6 +124,3 @@ const searchItem = async () => {
 	}
 };
 </script>
-
-<style scoped>
-</style>
