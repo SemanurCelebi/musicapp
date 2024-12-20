@@ -1,14 +1,24 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { getArtist } from "@/services/artist";
-import { Artist } from "@/types/artist";
+
 import { useKeyStore } from "@/stores/keyStore";
-import {getTrack} from "@/services/track";
-import {Track} from "@/types/track";
+
+import { getTrack } from "@/services/track";
+import { getArtist } from "@/services/artist";
+import { getAlbum } from "@/services/album";
+import { getPlaylist } from "@/services/playlist";
+
+import { Track } from "@/types/track";
+import { Artist } from "@/types/artist";
+import { Album } from "@/types/album";
+import { Playlist } from "@/types/playlist";
 
 export const useDetailStore = defineStore('detailStore', () => {
     const artist = ref<Artist>();
     const track = ref<Track>();
+    const album = ref<Album>();
+    const playlist = ref<Playlist>();
+
     const keyStore = useKeyStore();
     const token = keyStore.token;
 
@@ -28,11 +38,31 @@ export const useDetailStore = defineStore('detailStore', () => {
         }
     };
 
+    const getAlbumData = async (albumId: string ) => {
+        try {
+            album.value = await getAlbum(albumId, token);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const getPlaylistData = async (playlistId: string ) => {
+        try {
+            playlist.value = await getPlaylist(playlistId, token);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     return {
         artist,
         track,
+        album,
+        playlist,
         getArtistData,
-        getTrackData
+        getTrackData,
+        getAlbumData,
+        getPlaylistData
     }
         // async getTrack(trackId : string) {
         //     const keyStore = useKeyStore();

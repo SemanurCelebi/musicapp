@@ -1,5 +1,5 @@
-import {Image} from "@/types/image";
-import { ExternalUrl} from "@/types/external_url";
+import { Image } from "@/types/image";
+import { ExternalUrl } from "@/types/external_url";
 
 export type Playlist = {
     description: string;
@@ -14,6 +14,7 @@ export type Playlist = {
         display_name: string;
         href: string
         id: string
-        type: string
+        type: string,
+        external_urls: ExternalUrl;
     }
 }

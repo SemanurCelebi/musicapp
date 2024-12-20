@@ -34,7 +34,7 @@
 						Your browser does not support the audio element.
 					</audio>
 					<div class="track-info">
-						<router-link  :to="{ name: 'TracksDetail', params: { trackId: track.id }}">
+						<router-link  :to="{ name: 'TrackDetail', params: { trackId: track.id }}">
 							<p class="track-name">{{ track.name }}</p>
 						</router-link>
 						<p class="track-artist">{{ track.artists[0]?.name }}</p>
@@ -47,7 +47,9 @@
 			<h3 class="header">Albums</h3>
 			<ul class="album-list">
 				<li v-for="album in albumList.slice(0, 3)" :key="album.id" class="album-item">
-					<img :src="album.images[0]?.url" alt="Album Cover" class="album-image" />
+					<router-link  :to="{ name: 'AlbumDetail', params: { albumId: album.id }}">
+						<img :src="album.images[0]?.url" alt="Album Cover" class="album-image" />
+					</router-link>
 					<div class="album-info">
 						<p class="album-name">{{ album.name }}</p>
 						<p class="album-artist">{{ album.release_date }}-{{ album.artists[0]?.name }}</p>
@@ -60,7 +62,9 @@
 			<h3 class="header">Playlists</h3>
 			<ul class="playlist-list">
 				<li v-for="playlist in playlistList.filter(item => item !== null).slice(0, 3)" :key="playlist.id" class="playlist-item">
-					<img :src="playlist.images[0]?.url" alt="Playlist Cover" class="playlist-image" />
+					<router-link  :to="{ name: 'PlaylistDetail', params: { playlistId: playlist.id }}">
+						<img :src="playlist.images[0]?.url" alt="Playlist Cover" class="playlist-image" />
+					</router-link>
 					<div class="playlist-info">
 						<p class="playlist-name">{{ playlist.name }}</p>
 						<p class="playlist-owner">By {{ playlist.owner.display_name }}</p>
