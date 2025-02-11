@@ -51,8 +51,8 @@ npm run build
 
 ## Screenshots
 
-<img width="500" alt="Screenshot 2025-02-11 at 15 24 13" src="https://github.com/user-attachments/assets/6453f8b2-15eb-4f02-8613-599cc25b9b14" />
-<img width="500" alt="Screenshot 2025-02-11 at 16 23 48" src="https://github.com/user-attachments/assets/81352e72-53fd-4349-8b7c-8ee8362f588c" />
+<img width="600" alt="Screenshot 2025-02-11 at 15 24 13" src="https://github.com/user-attachments/assets/6453f8b2-15eb-4f02-8613-599cc25b9b14" />
+<img width="600" alt="Screenshot 2025-02-11 at 16 23 48" src="https://github.com/user-attachments/assets/81352e72-53fd-4349-8b7c-8ee8362f588c" />
 
 ---
 
