@@ -1,6 +1,6 @@
 # MusicApp
 
-<img width="930" alt="Screenshot 2025-02-11 at 15 24 13" src="https://github.com/user-attachments/assets/6453f8b2-15eb-4f02-8613-599cc25b9b14" />
+<img width="500" alt="Screenshot 2025-02-11 at 15 24 13" src="https://github.com/user-attachments/assets/6453f8b2-15eb-4f02-8613-599cc25b9b14" />
 
 
 ## Github Pages
@@ -12,7 +12,6 @@ You can also see my project live on github page [MusicApp](https://semanurcelebi
 
 - [Description](#description)
 - [Project Setup](#project-setup)
-- [References](#references)
 - [Author Info](#author-info)
 
 ---
@@ -54,6 +53,6 @@ npm run build
 # Author Info
 
 - Linkedin - [Semanur Çelebi](https://www.linkedin.com/in/semanurcelebi/)
-- Mail - [Semanur Çelebi](mailto:semanur.celebi@outlook.com)
+- Mail     - [Semanur Çelebi](mailto:semanur.celebi@outlook.com)
 
 [Back To The Top](#musicapp)
